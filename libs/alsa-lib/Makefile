@@ -89,6 +89,10 @@ define Package/alsa-lib/install
 	$(CP) \
 		$(PKG_INSTALL_DIR)/usr/share/alsa/cards/* \
 		$(1)/usr/share/alsa/cards/
+ifeq ($(CONFIG_PACKAGE_kmod-sound-mtk),y)
+	$(INSTALL_DIR) $(1)/etc
+	$(INSTALL_DATA) ./files/asound.conf $(1)/etc/
+endif
 endef
 
 $(eval $(call BuildPackage,alsa-lib))
