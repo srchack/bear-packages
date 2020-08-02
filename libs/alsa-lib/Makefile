@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2014 OpenWrt.org
+# Copyright (C) 2006-2016 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,22 +8,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alsa-lib
-PKG_VERSION:=1.1.5
+PKG_VERSION:=1.1.9
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=ftp://ftp.alsa-project.org/pub/lib/ \
-		http://alsa.cybermirror.org/lib/
-PKG_MD5SUM:=a2b465c3a5265d8a57f3ff39c6c4fc29
-PKG_MAINTAINER:=Ted Hess <thess@kitschensync.net>
+		http://distfiles.gentoo.org/distfiles/
+PKG_HASH:=488373aef5396682f3a411a6d064ae0ad196b9c96269d0bb912fbdeec94b994b
 
-PKG_LICENSE:=LGPLv2.1 GPLv2
-PKG_LICENSE_FILES:=COPYING aserver/COPYING
+PKG_MAINTAINER:=Ted Hess <thess@kitschensync.net>, \
+		Peter Wagner <tripolar@gmx.at>
 
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
+PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
-PKG_CHECK_FORMAT_SECURITY:=0
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -32,8 +31,9 @@ define Package/alsa-lib
   CATEGORY:=Libraries
   TITLE:=ALSA (Advanced Linux Sound Architecture) library
   URL:=http://www.alsa-project.org/
-  MAINTAINER:=Peter Wagner <tripolar@gmx.at>
   DEPENDS:=@AUDIO_SUPPORT +kmod-sound-core +libpthread +librt
+  LICENSE:=LGPLv2.1-or-later
+  LICENSE_FILES:=COPYING
 endef
 
 define Package/alsa-lib/description
@@ -41,17 +41,18 @@ define Package/alsa-lib/description
  You must have enabled the ALSA support in the kernel.
 endef
 
+define Package/alsa-lib/conffiles
+/etc/asound.conf
+endef
+
 TARGET_CFLAGS += $(FPIC)
 
-define Build/Configure
-	$(call Build/Configure/Default, \
+CONFIGURE_ARGS+= \
 		--disable-python \
 		--disable-debug \
 		--without-debug \
 		$(SOFT_FLOAT_CONFIG_OPTION) \
-		--with-versioned=no \
-	)
-endef
+		--with-versioned=no
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/
