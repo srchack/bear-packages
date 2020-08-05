@@ -29,7 +29,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/alsa-utils
   SECTION:=sound
   CATEGORY:=Sound
-  DEPENDS:=+alsa-lib +libncursesw +libpthread
+  DEPENDS:=+alsa-lib +libncurses +libpthread
   TITLE:=ALSA (Advanced Linux Sound Architecture) utilities
   URL:=https://www.alsa-project.org/
 endef
@@ -56,7 +56,7 @@ CONFIGURE_ARGS+= \
 	--disable-bat \
 	--disable-xmlto \
 	--disable-rst2man \
-	--with-curses=ncursesw
+	--with-curses=ncurses
 
 define Package/alsa-utils/install
 	$(INSTALL_DIR) $(1)/usr/{s,}bin
