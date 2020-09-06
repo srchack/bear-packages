@@ -49,15 +49,14 @@ MAKE_FLAGS += libhv
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/hv
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/include/hv/*.h $(1)/usr/include/hv/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/include/hv/*.{h,hpp} $(1)/usr/include/hv/
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/lib/libhv.a $(1)/usr/lib/
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/libhv.so $(1)/usr/lib/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/lib/libhv.{a,so} $(1)/usr/lib/
 endef
 
 define Package/libhv/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/libhv.so $(1)/usr/lib/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/lib/libhv.{a,so} $(1)/usr/lib/
 endef
 
 $(eval $(call BuildPackage,libhv))
